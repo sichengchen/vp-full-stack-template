@@ -36,10 +36,15 @@ for (const file of files) {
   const relativePath = path.relative(root, file);
   let next = current.replaceAll(defaultScope, scope);
 
-  if (name && relativePath === "package.json") {
-    const rootPackage = JSON.parse(next);
-    rootPackage.name = name;
-    next = `${JSON.stringify(rootPackage, null, 2)}\n`;
+  if (relativePath.endsWith("package.json")) {
+    const packageJson = JSON.parse(next);
+
+    if (name && relativePath === "package.json") {
+      packageJson.name = name;
+    }
+
+    sortPackageJson(packageJson);
+    next = `${JSON.stringify(packageJson, null, 2)}\n`;
   }
 
   if (next === current) {
@@ -73,6 +78,26 @@ function readOption(name) {
   }
 
   return args[index + 1];
+}
+
+function sortPackageJson(packageJson) {
+  for (const field of [
+    "scripts",
+    "dependencies",
+    "devDependencies",
+    "peerDependencies",
+    "optionalDependencies",
+  ]) {
+    if (packageJson[field]) {
+      packageJson[field] = sortObject(packageJson[field]);
+    }
+  }
+}
+
+function sortObject(value) {
+  return Object.fromEntries(
+    Object.entries(value).sort(([left], [right]) => left.localeCompare(right)),
+  );
 }
 
 async function collectTextFiles(directory) {

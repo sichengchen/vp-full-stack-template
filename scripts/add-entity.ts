@@ -77,10 +77,7 @@ export type New${names.singularPascal} = typeof ${names.pluralCamel}.$inferInser
     `import { randomUUID } from "node:crypto";
 import { desc, eq } from "drizzle-orm";
 import { ${names.pluralCamel}, type Database } from "@template/db";
-import type {
-  Create${names.singularPascal}Input,
-  Update${names.singularPascal}Input,
-} from "@template/shared";
+import type { Create${names.singularPascal}Input, Update${names.singularPascal}Input } from "@template/shared";
 
 export function create${names.singularPascal}Service(db: Database) {
   return {
@@ -119,10 +116,7 @@ export function create${names.singularPascal}Service(db: Database) {
     `import { Hono } from "hono";
 import { validator } from "hono/validator";
 import type { Database } from "@template/db";
-import {
-  create${names.singularPascal}Schema,
-  update${names.singularPascal}Schema,
-} from "@template/shared";
+import { create${names.singularPascal}Schema, update${names.singularPascal}Schema } from "@template/shared";
 import { parseJsonBody } from "../../lib/http";
 import { create${names.singularPascal}Service } from "./${names.fileBase}.service";
 
