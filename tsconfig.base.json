@@ -17,12 +17,10 @@
     "exactOptionalPropertyTypes": true,
     "noFallthroughCasesInSwitch": true,
     "jsx": "react-jsx",
-    "baseUrl": ".",
-    "ignoreDeprecations": "6.0",
     "paths": {
-      "@template/db": ["packages/db/src/index.ts"],
-      "@template/shared": ["packages/shared/src/index.ts"],
-      "@template/ui/*": ["packages/ui/src/*"]
+      "@template/db": ["./packages/db/src/index.ts"],
+      "@template/shared": ["./packages/shared/src/index.ts"],
+      "@template/ui/*": ["./packages/ui/src/*"]
     }
   }
 }
