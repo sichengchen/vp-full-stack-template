@@ -10,8 +10,8 @@ A TypeScript full-stack monorepo template with a React frontend, Hono API, share
 - TanStack Router for routing
 - TanStack Query for server-state fetching and cache invalidation
 - Zustand for lightweight client state
-- Tailwind CSS v4
-- shadcn/ui in Base UI mode
+- StyleX for compile-time application styling
+- Astryx components and the neutral Astryx theme
 - Hono served by `@hono/node-server`
 - Drizzle ORM with LibSQL/SQLite for local development
 - Zod contracts shared between the API and web app
@@ -35,7 +35,6 @@ The initializer rewrites:
 - workspace package names
 - internal imports
 - TypeScript path aliases
-- shadcn/ui aliases
 - root scripts
 - README examples
 
@@ -51,7 +50,7 @@ vp install
 vp run --filter ./apps/api --filter ./apps/web dev
 vp check
 vp run -r check
-vp build
+vp run -r build
 vp test
 vp run -w entity:add users
 vp db:push
@@ -62,7 +61,7 @@ Command notes:
 
 - `vp check`: formatting and lint checks
 - `vp run -r check`: TypeScript checks in every workspace package
-- `vp build`: package checks plus production web build
+- `vp run -r build`: builds every workspace package, including the production web bundle
 - `vp run -w entity:add users`: creates the standard files for a new entity
 - `vp db:push`: pushes the Drizzle schema to the configured database
 - `vp db:studio`: opens Drizzle Studio
@@ -74,11 +73,10 @@ The API initializes the local demo `todos` table at startup so the example works
 ```txt
 apps/
   api/        Hono API, organized by feature module
-  web/        React app with TanStack Router, Query, Zustand, and Tailwind
+  web/        React app with TanStack Router, Query, Zustand, StyleX, and Astryx
 packages/
   db/         Drizzle schema modules and database client
   shared/     Zod API contracts and DTO types
-  ui/         shadcn-style UI primitives and utilities
 scripts/
   add-entity.ts
   init-template.mjs
@@ -194,7 +192,7 @@ After adding or editing an entity, run:
 
 ```sh
 vp run -r check
-vp build
+vp run -r build
 ```
 
 ## Web App Patterns
@@ -203,19 +201,40 @@ vp build
 - Server data belongs in TanStack Query hooks under `apps/web/src/lib`.
 - Lightweight client preferences belong in Zustand stores under `apps/web/src/stores`.
 - Shared request and response types should come from `@template/shared`.
-- UI primitives should come from `@template/ui`.
+- UI components should come from focused `@astryxdesign/core/*` entry points.
+- Application styles should use `stylex.create()` and Astryx design tokens.
 
-## shadcn/ui
+## Astryx and StyleX
 
-`components.json` is configured with `"base": "base"` for shadcn/ui Base UI mode. Component aliases point at `packages/ui`.
+The web app uses the Astryx neutral theme and imports Astryx components directly. StyleX is compiled by the official Vite integration, and the required Astryx stylesheets are loaded from `apps/web/src/styles.css`.
 
-Add components with:
+Discover components and inspect their APIs with the Astryx CLI:
 
 ```sh
-vp dlx shadcn@latest add button card input
+vp run @template/web#astryx -- component --list
+vp run @template/web#astryx -- component Button
+vp run @template/web#astryx -- build "settings page"
 ```
 
-Keep generated components in `packages/ui/src/components` and import them from `@template/ui/components/...`.
+Import components from their focused entry points to keep bundles lean:
+
+```tsx
+import { Button } from "@astryxdesign/core/Button";
+import { Card } from "@astryxdesign/core/Card";
+```
+
+Use StyleX for app-specific layout or visual rules, with Astryx tokens when a design value is needed:
+
+```tsx
+import * as stylex from "@stylexjs/stylex";
+import { spacingVars } from "@astryxdesign/core/theme/tokens.stylex";
+
+const styles = stylex.create({
+  content: {
+    paddingBlock: spacingVars["--spacing-4"],
+  },
+});
+```
 
 ## Documentation
 
@@ -226,9 +245,8 @@ Keep generated components in `packages/ui/src/components` and import them from `
 - [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview)
 - [TanStack Query](https://tanstack.com/query/latest/docs/framework/react/overview)
 - [Zustand](https://github.com/pmndrs/zustand/tree/main/docs)
-- [Tailwind CSS](https://tailwindcss.com/docs)
-- [shadcn/ui](https://ui.shadcn.com/docs)
-- [Base UI](https://base-ui.com/react/overview/about)
+- [StyleX](https://stylexjs.com/docs/)
+- [Astryx](https://astryx.atmeta.com/)
 - [Hono](https://hono.dev/docs/)
 - [Drizzle ORM](https://orm.drizzle.team/docs/overview)
 - [LibSQL client](https://www.npmjs.com/package/@libsql/client)

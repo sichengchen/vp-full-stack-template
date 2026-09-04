@@ -19,8 +19,7 @@
     "jsx": "react-jsx",
     "paths": {
       "@template/db": ["./packages/db/src/index.ts"],
-      "@template/shared": ["./packages/shared/src/index.ts"],
-      "@template/ui/*": ["./packages/ui/src/*"]
+      "@template/shared": ["./packages/shared/src/index.ts"]
     }
   }
 }

@@ -16,11 +16,11 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@libsql/client": "^0.17.4",
+    "@libsql/client": "^0.18.0",
     "drizzle-orm": "^0.45.2"
   },
   "devDependencies": {
-    "@types/node": "^25.9.5",
+    "@types/node": "^26.4.1",
     "drizzle-kit": "^0.31.10",
     "typescript": "^7.0.2"
   }

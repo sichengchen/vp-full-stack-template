@@ -1,13 +1,7 @@
-import { Badge } from "@template/ui/components/badge";
-import { Button } from "@template/ui/components/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@template/ui/components/card";
-import { cn } from "@template/ui/lib/utils";
+import { Section } from "@astryxdesign/core/Section";
+import { SegmentedControl, SegmentedControlItem } from "@astryxdesign/core/SegmentedControl";
+import { VStack } from "@astryxdesign/core/Stack";
+import { Heading, Text } from "@astryxdesign/core/Text";
 import { usePreferencesStore } from "../stores/preferences";
 
 const densityOptions = ["comfortable", "compact"] as const;
@@ -17,40 +11,39 @@ export function SettingsPage() {
   const setDensity = usePreferencesStore((state) => state.setDensity);
 
   return (
-    <section className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
-        <Badge variant="outline">Zustand example</Badge>
-        <h1 className="text-3xl font-semibold tracking-normal">Preferences</h1>
-        <p className="text-muted-foreground max-w-2xl">
+    <VStack as="section" gap={6}>
+      <VStack gap={2} hAlign="start">
+        <Text color="secondary" type="supporting">
+          Zustand example
+        </Text>
+        <Heading level={1}>Preferences</Heading>
+        <Text as="p" color="secondary">
           Zustand stores lightweight client state separately from server data cached by TanStack
           Query.
-        </p>
-      </div>
+        </Text>
+      </VStack>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Todo density</CardTitle>
-          <CardDescription>Stored locally with Zustand persist middleware.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="inline-flex rounded-md border p-1">
+      <Section padding={6}>
+        <VStack gap={4} hAlign="start">
+          <VStack gap={1}>
+            <Heading level={2}>Todo density</Heading>
+            <Text color="secondary">Stored locally with Zustand persist middleware.</Text>
+          </VStack>
+          <SegmentedControl
+            label="Todo density"
+            onChange={(value) => setDensity(value as (typeof densityOptions)[number])}
+            value={density}
+          >
             {densityOptions.map((option) => (
-              <Button
-                key={option}
-                variant="ghost"
-                size="sm"
-                className={cn(
-                  "capitalize",
-                  density === option && "bg-accent text-accent-foreground",
-                )}
-                onClick={() => setDensity(option)}
-              >
-                {option}
-              </Button>
+              <SegmentedControlItem key={option} label={capitalize(option)} value={option} />
             ))}
-          </div>
-        </CardContent>
-      </Card>
-    </section>
+          </SegmentedControl>
+        </VStack>
+      </Section>
+    </VStack>
   );
+}
+
+function capitalize(value: string) {
+  return value.charAt(0).toUpperCase() + value.slice(1);
 }
