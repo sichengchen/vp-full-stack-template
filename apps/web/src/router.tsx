@@ -1,9 +1,7 @@
 import type { AnchorHTMLAttributes } from "react";
 import * as stylex from "@stylexjs/stylex";
 import { AppShell } from "@astryxdesign/core/AppShell";
-import { Divider } from "@astryxdesign/core/Divider";
 import { VStack } from "@astryxdesign/core/Stack";
-import { Text } from "@astryxdesign/core/Text";
 import { TopNav, TopNavHeading, TopNavItem } from "@astryxdesign/core/TopNav";
 import type { QueryClient } from "@tanstack/react-query";
 import {
@@ -78,15 +76,8 @@ function RootLayout() {
         />
       }
     >
-      <VStack gap={8} maxWidth={960} width="100%" xstyle={styles.content}>
+      <VStack maxWidth={960} width="100%" xstyle={styles.content}>
         <Outlet />
-        <VStack as="footer" gap={6}>
-          <Divider />
-          <Text as="p" color="secondary" type="supporting">
-            React, TanStack Router, TanStack Query, Zustand, Hono, Drizzle, StyleX, Astryx, and
-            VitePlus.
-          </Text>
-        </VStack>
       </VStack>
     </AppShell>
   );
