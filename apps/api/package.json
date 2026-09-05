@@ -17,7 +17,7 @@
     "@template/shared": "workspace:*",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
-    "hono": "^4.13.5",
+    "hono": "^4.13.7",
     "zod": "^4.5.4"
   },
   "devDependencies": {
